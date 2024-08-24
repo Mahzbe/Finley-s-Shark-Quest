@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finley's Ocean Adventure</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="game-over-screen.css">
-    <link rel="stylesheet" href="restart.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finley's Ocean Adventure</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="game-over-screen.css">
+  <link rel="stylesheet" href="restart.css">
 </head>
 <body>
-    <canvas id="game-canvas" width="800" height="600"></canvas>
-    <div id="start-menu" style="display: block;">
-        <h1>Finley's Ocean Adventure</h1>
-        <button id="start-button">Start Game</button>
-    </div>
-    <div id="game-over-screen" style="display: none;">
-        <h1>Game Over!</h1>
-        <p>Your score: <span id="final-score"></span></p>
-        <button id="restart-button">Restart</button>
-    </div>
-    <audio id="finley-swim-sound" src="finley-swim.mp3"></audio>
-    <audio id="shark-attack-sound" src="shark-attack.mp3"></audio>
-    <audio id="background-music" src="background-music.mp3" loop></audio>
-    <script src="game.js"></script>
-    <script src="puzzle.js"></script>
-    <script src="finley.js"></script>
-    <script src="shark.js"></script>
+  <canvas id="game-canvas" width="800" height="600"></canvas>
+  <div id="start-menu" style="display: block;">
+    <h1>Finley's Ocean Adventure</h1>
+    <button id="start-button">Start Game</button>
+  </div>
+  <div id="game-over-screen" style="display: none;">
+    <h1>Game Over!</h1>
+    <p>Your score: <span id="final-score"></span></p>
+    <button id="restart-button">Restart</button>
+  </div>
+  <audio id="finley-swim-sound" src="finley-swim.mp3"></audio>
+  <audio id="shark-attack-sound" src="shark-attack.mp3"></audio>
+  <audio id="background-music" src="background-music.mp3" loop></audio>
+  <audio id="woohoo-sound" src="woohoo.mp3"></audio>
+  <audio id="ha-sound" src="ha.mp3"></audio>
+  <audio id="oh-no-sound" src="oh-no.mp3"></audio>
+  <script src="game.js"></script>
+  <script src="puzzle.js"></script>
+  <script src="finley.js"></script>
+  <script src="shark.js"></script>
 </body>
 </html>
