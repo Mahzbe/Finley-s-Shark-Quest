@@ -21,6 +21,20 @@ function initGame() {
   colorBlocks = [];
 }
 
+// Finley object
+function Finley() {
+  this.x = 100; // initial x position
+  this.y = 100; // initial y position
+  this.speed = 5; // movement speed
+}
+
+// Shark object
+function Shark() {
+  this.x = 500; // initial x position
+  this.y = 500; // initial y position
+  this.speed = 10; // movement speed
+}
+
 // Function to handle user input (e.g., keyboard or touch events)
 function handleInput() {
   // TO DO: Add input handling code here
