@@ -1,181 +1,157 @@
-// game.js (complete and final version)
+import { levels, pieceTypes } from './puzzle.js';
 
-// Initialize game variables
-var finley;
-var shark;
-var currentHouse;
-var currentBackground;
-var colorBlocks;
-var puzzle;
-var score;
-var level;
-var gameOver;
+const game = {
+  level: 0,
+  puzzle: levels[0],
+  shark: {
+    speed: levels[0].sharkBehavior.speed,
+    aggression: levels[0].sharkBehavior.aggression,
+    x: 0,
+    y: 0
+  },
+  finley: {
+    x: 0,
+    y: 0
+  },
+  score: 0
+};
 
-// Function to initialize the game
-function initGame() {
-  // Initialize Finley and Shark objects
-  finley = new Finley();
-  shark = new Shark();
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
 
-  // Set initial house and background
-  currentHouse = 1;
-  currentBackground = "ocean";
+const backgroundImage = new Image();
+backgroundImage.src = 'background.png';
 
-  // Initialize color blocks
-  colorBlocks = [];
+const finleyImage = new Image();
+finleyImage.src = 'finley.png';
 
-  // Generate puzzle
-  puzzle = generatePuzzle();
+const sharkImage = new Image();
+sharkImage.src = 'shark.png';
 
-  // Initialize score and level
-  score = 0;
-  level = 1;
+const puzzlePieceImage = new Image();
+puzzlePieceImage.src = 'puzzle-piece.png';
 
-  // Initialize game over flag
-  gameOver = false;
+function updateShark() {
+  game.shark.speed = levels[game.level].sharkBehavior.speed;
+  game.shark.aggression = levels[game.level].sharkBehavior.aggression;
 }
 
-// Finley object
-function Finley() {
-  this.x = 100; // initial x position
-  this.y = 100; // initial y position
-  this.speed = 5; // movement speed
-}
-
-// Shark object
-function Shark() {
-  this.x = 500; // initial x position
-  this.y = 500; // initial y position
-  this.speed = 10; // movement speed
-}
-
-// Function to generate puzzle
-function generatePuzzle() {
-  // Create a 3x3 grid of color blocks
-  var puzzle = [];
-  for (var i = 0; i < 3; i++) {
-    puzzle[i] = [];
-    for (var j = 0; j < 3; j++) {
-      puzzle[i][j] = getRandomColor();
-    }
-  }
-  return puzzle;
-}
-
-// Function to check if puzzle is solved
-function checkPuzzle(puzzle) {
-  // Check if all blocks are in correct order
-  for (var i = 0; i < 3; i++) {
-    for (var j = 0; j < 3; j++) {
-      if (puzzle[i][j] != getCorrectColor(i, j)) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-// Function to navigate Finley through the ocean
-function navigateFinley() {
-  // Move Finley based on user input
-  if (/* user input */)) {
-    finley.x += finley.speed;
-  }
-}
-
-// Function to handle shark encounter
-function sharkEncounter() {
-  // Check if Finley is close to shark
-  if (/* Finley is close to shark */)) {
-    // Shark destroys Finley's house
-    currentHouse = 0;
-    // Finley must navigate back to previous house
-    navigateFinley();
-  }
-}
-
-// Function to handle user input
-function handleInput(event) {
-  // Handle keyboard input for navigation and puzzle solving
-  if (event.key === "ArrowUp") {
-    finley.y -= finley.speed;
-  } else if (event.key === "ArrowDown") {
-    finley.y += finley.speed;
-  } else if (event.key === "ArrowLeft") {
-    finley.x -= finley.speed;
-  } else if (event.key === "ArrowRight") {
-    finley.x += finley.speed;
-  }
-}
-
-// Function to render the game
-function renderGame() {
-  // Clear the canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-  // Draw the puzzle
-  for (var i = 0; i < 3; i++) {
-    for (var j = 0; j < 3; j++) {
-      ctx.fillStyle = puzzle[i][j];
-      ctx.fillRect(j * 50, i * 50, 50, 50);
-    }
-  }
-  
-  // Draw Finley
-  ctx.fillStyle = "blue";
-  ctx.fillRect(finley.x, finley.y, 50, 50);
-  
-  // Draw the shark
-  ctx.fillStyle = "red";
-  ctx.fillRect(shark.x, shark.y, 50, 50);
-}
-
-// Game loop
-function updateGame() {
-  // Update game state
-  navigateFinley();
-  sharkEncounter();
-  solvePuzzle();
-  updateScoreAndLevel();
-  
-  // Render the game
-  renderGame();
-  
-  // Check for game over
-  if (gameOver) {
-    renderGameOver();
+function collectPiece(piece) {
+  if (piece.type === 'slowDownShark') {
+    pieceTypes.slowDownShark.effect(game);
+    finleyDialogue("Ha! Take that, shark!");
+    addSpeedLinesEffect();
   } else {
-    requestAnimationFrame(updateGame);
+    finleyDialogue("Woohoo!");
+    addSparkleEffect();
   }
 }
 
-// Function to restart the game
-function restartGame() {
-  // Reset game variables
-  finley = new Finley();
-  shark = new Shark();
-  currentHouse = 1;
-  currentBackground = "ocean";
-  colorBlocks = [];
-  puzzle = generatePuzzle();
-  score = 0;
-  level = 1;
-  gameOver = false;
-  
-  // Hide game over screen
-  document.getElementById('game-over-screen').
-// Function to render game over screen
-function renderGameOver() {
-  // Display game over message
-  document.getElementById('game-over-screen').style.display = 'block';
-  document.getElementById('final-score').innerHTML = score;
+function handleKeyPress(event) {
+  switch (event.key) {
+    case 'ArrowUp':
+      game.finley.y -= 10;
+      break;
+    case 'ArrowDown':
+      game.finley.y += 10;
+      break;
+    case 'ArrowLeft':
+      game.finley.x -= 10;
+      break;
+    case 'ArrowRight':
+      game.finley.x += 10;
+      break;
+  }
 }
 
-// Add event listener to restart button
-document.getElementById('restart-button').addEventListener('click', restartGame);
+document.addEventListener('keydown', handleKeyPress);
 
-// Initialize the game
-initGame();
+function checkCollisions() {
+  // Check for collisions with puzzle pieces
+  game.puzzle.puzzlePieces.forEach((piece) => {
+    if (checkCollision(game.finley, piece)) {
+      collectPiece(piece);
+    }
+  });
 
-// Start the game loop
-updateGame();
+  // Check for collisions with the shark
+  if (checkCollision(game.finley, game.shark)) {
+    finleyDialogue("Oh no!");
+    addSplashingWaterEffect();
+  }
+}
+
+function updateGame() {
+  updateShark();
+  checkCollisions();
+  updateScore();
+}
+
+function render() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(backgroundImage, 0, 0);
+
+  game.puzzle.puzzlePieces.forEach((piece) => {
+    ctx.drawImage(piece.image, piece.x, piece.y);
+  });
+
+  ctx.drawImage(finleyImage, game.finley.x, game.finley.y);
+  ctx.drawImage(sharkImage, game.shark.x, game.shark.y);
+
+  ctx.font = '24px Arial';
+  ctx.fillStyle = 'white';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  ctx.fillText(`Score: ${game.score}`, 10, 10);
+}
+
+function gameLoop() {
+  updateGame();
+  render();
+}
+
+setInterval(gameLoop, 1000 / 60);
+
+function finleyDialogue(dialogue) {
+  switch (dialogue) {
+    case "Woohoo!":
+      document.getElementById("woohoo-sound").play();
+      break;
+    case "Ha! Take that, shark!":
+      document.getElementById("ha-sound").play();
+      break;
+    case "Oh no!":
+      document.getElementById("oh-no-sound").play();
+      break;
+  }
+}
+
+function addSparkleEffect() {
+  // Add sparkle effect
+}
+
+function addSpeedLinesEffect() {
+  // Add speed lines effect
+}
+
+function addSplashingWaterEffect() {
+  // Add splashing water effect
+}
+
+function checkCollision(object1, object2) {
+  // Basic collision detection
+  if (
+    object1.x < object2.x + object2.width &&
+    object1.x + object1.width > object2.x &&
+    object1.y < object2.y + object2.height &&
+    object1.y + object1.height > object2.y
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function updateScore() {
+  // Update the score
+  game.score++;
+}
